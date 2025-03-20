@@ -33,7 +33,12 @@ const processPayment = async (amount) => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-        body: JSON.stringify(response),
+        body: JSON.stringify({
+          razorpay_order_id: response.razorpay_order_id,
+          razorpay_payment_id: response.razorpay_payment_id,
+          razorpay_signature: response.razorpay_signature,
+          userId: localStorage.getItem("userId"),
+        }),
       });
 
       const verification = await verifyResponse.json();

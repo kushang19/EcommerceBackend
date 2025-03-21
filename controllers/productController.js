@@ -3,13 +3,14 @@ import Product from "../models/Product.js";
 // ✅ Create a new product
 export const createProduct = async (req, res) => {
   try {
-    const { name, description, price, category, stock, image } = req.body;
+    const { name, description, price, category, subCategory, stock, image } = req.body;
 
     const newProduct = new Product({
       name,
       description,
       price,
       category,
+      subCategory,
       stock,
       image,
     });
@@ -22,10 +23,27 @@ export const createProduct = async (req, res) => {
 };
 
 // ✅ Get all products
-export const getAllProducts = async (req, res) => {
+// export const getAllProducts = async (req, res) => {
+//   try {
+//     const products = await Product.find();
+//     res.status(200).json(products);
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// };
+
+
+// ✅ Get products by category or sub-category
+export const getProducts = async (req, res) => {
   try {
-    const products = await Product.find();
-    res.status(200).json(products);
+    const { category, subCategory } = req.query;
+
+    let filter = {};
+    if (category) filter.category = category;
+    if (subCategory) filter.subCategory = subCategory;
+
+    const products = await Product.find(filter);
+    res.json(products);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -45,11 +63,11 @@ export const getProductById = async (req, res) => {
 // ✅ Update a product by ID
 export const updateProduct = async (req, res) => {
   try {
-    const { name, description, price, category, stock, image } = req.body;
+    const { name, description, price, category, subCategory, stock, image } = req.body;
 
     const updatedProduct = await Product.findByIdAndUpdate(
       req.params.id,
-      { name, description, price, category, stock, image },
+      { name, description, price, category, subCategory, stock, image },
       { new: true }
     );
 

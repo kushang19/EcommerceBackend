@@ -15,7 +15,7 @@ const router = express.Router();
 // router.get("/", getAllProducts);          // Get all products
 router.get("/:id", getProductById);       // Get product by ID
 
-router.get("/", getProducts); // ✅ Get Products (Filtered by Category/Sub-Category)
+router.get("/", getProducts); // ✅ Get Products (Filtered by Category, Price, Brand, Ratings)
 
 // Protected Routes (Only Admins can access)
 router.post("/",verifyAdmin, createProduct);        // Create a product
